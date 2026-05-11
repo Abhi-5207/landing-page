@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta property="og:title" content="LPG Consumption Calculator" />
+    <meta property="og:description" content="Calculate LPG consumption and costs." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://shri-nidhirao.github.io/LPG_cc" />
+    <meta charset="UTF-8">
+    <title>LPG & Meals Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+        }
+
+        /* 🔘 Toggle Switch */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .label {
+            color: #777;
+        }
+
+        .active-label {
+            color: #f57c00;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #4caf50;
+            border-radius: 34px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        input:checked+.slider {
+            background-color: #f57c00;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #2e7d32;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2> LPG & Meals Calculator</h2>
+
+        <!-- Toggle -->
+        <div class="toggle-container">
+            <span id="lpgLabel" class="label active-label">LPG</span>
+
+            <label class="switch">
+                <input type="checkbox" id="toggleSwitch" onchange="toggleMode()">
+                <span class="slider"></span>
+            </label>
+
+            <span id="mealLabel" class="label">MEALS</span>
+        </div>
+
+        <!-- LPG Inputs -->
+        <div id="lpgMode">
+            <input type="number" id="numCylinder" placeholder="Number of Cylinders">
+            <input type="number" id="daysLPG" placeholder="Number of Days">
+        </div>
+
+        <!-- Meals Inputs -->
+        <div id="mealMode" style="display:none;">
+            <input type="number" id="mealsPerDay" placeholder="Meals per Day">
+            <input type="number" id="daysMeal" placeholder="Number of Days">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        let mode = "lpg";
+
+        function toggleMode() {
+            let toggle = document.getElementById("toggleSwitch").checked;
+
+            if (toggle) {
+                mode = "meal";
+                document.getElementById("lpgMode").style.display = "none";
+                document.getElementById("mealMode").style.display = "block";
+
+                document.getElementById("lpgLabel").classList.remove("active-label");
+                document.getElementById("mealLabel").classList.add("active-label");
+            } else {
+                mode = "lpg";
+                document.getElementById("lpgMode").style.display = "block";
+                document.getElementById("mealMode").style.display = "none";
+
+                document.getElementById("mealLabel").classList.remove("active-label");
+                document.getElementById("lpgLabel").classList.add("active-label");
+            }
+        }
+
+        function calculate() {
+            let result = "";
+
+            if (mode === "lpg") {
+                let cost = 2000;
+                let cylinders = parseFloat(document.getElementById("numCylinder").value);
+                let days = parseFloat(document.getElementById("daysLPG").value);
+
+                if (!cost || !cylinders || !days) {
+                    alert("Please fill all fields!");
+                    return;
+                }
+
+                let totalCost = cost * cylinders;
+                let costPerDay = totalCost / days;
+                let lpgPerDay = (14.2 * cylinders) / days;
+
+                result = `
+            <h3>Results (LPG)</h3>
+            <p>Total Cost: ₹${totalCost.toFixed(2)}</p>
+            <p>Cost per Day: ₹${costPerDay.toFixed(2)}</p>
+            <p>LPG per Day: ${lpgPerDay.toFixed(2)} kg</p>
+        `;
+            } else {
+                let costMeal = 50;
+                let meals = parseFloat(document.getElementById("mealsPerDay").value);
+                let days = parseFloat(document.getElementById("daysMeal").value);
+
+                if (!costMeal || !meals || !days) {
+                    alert("Please fill all fields!");
+                    return;
+                }
+
+                let totalMeals = meals * days;
+                let totalCost = totalMeals * costMeal;
+                let costPerDay = meals * costMeal;
+                let lpgConsumption = totalMeals * 0.05;
+
+                result = `
+            <h3>Results (Meals)</h3>
+            <p>Total Meals: ${totalMeals}</p>
+            <p>Total Cost: ₹${totalCost.toFixed(2)}</p>
+            <p>Cost per Day: ₹${costPerDay.toFixed(2)}</p>
+            <p>LPG Consumption: ${lpgConsumption.toFixed(2)} kg</p>
+        `;
+            }
+
+            document.getElementById("result").innerHTML = result;
+        }
+    </script>
+
+</body>
+
+</html>
