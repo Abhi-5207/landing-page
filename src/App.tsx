@@ -395,12 +395,15 @@ const CalculatorCTA = () => {
   const [cylinderPrice, setCylinderPrice] = useState<number | string>(3300);
 
   // Setup cost constant
-  const setupCost = 3340000;
-
   // Calculation Logic (Fixed Sl No 1-10)
   const valPeople = Number(numPeople) || 0;
   const valWeight = Number(cylinderWeight) || 1; // prevent div by zero
   const valPrice = Number(cylinderPrice) || 0;
+
+  // Dynamic Setup Cost based on people (2 dishes per 200 people)
+  const numDishes = valPeople > 0 ? Math.ceil(valPeople / 200) * 2 : 0;
+  const COST_PER_DISH = 832500; // Updated per user request
+  const setupCost = numDishes * COST_PER_DISH;
 
   const numMeals = valPeople * 2; // Sl No 2
   const lpgPerMeal = 0.05; // Sl No 3
@@ -476,8 +479,9 @@ const CalculatorCTA = () => {
                     { label: 'No of meals', value: numMeals.toLocaleString() },
                     { label: 'LPG per meal (kg)', value: lpgPerMeal },
                     { label: 'Total LPG req (kg)', value: `${totalLpgPerDay.toFixed(1)}` },
-                    { label: 'Cylinders / day', value: cylsPerDay.toFixed(2) },
                     { label: 'Cylinders / Month', value: Math.round(cylsPerMonth) },
+                    { label: 'No of Dishes', value: numDishes },
+                    { label: 'System Cost', value: `₹${(setupCost / 100000).toFixed(1)}L` },
                     { label: 'Cost / Month', value: `₹${Math.round(costPerMonth).toLocaleString()}` },
                   ].map((item, i) => (
                     <div key={i} className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 shadow-sm hover:border-emerald-200 transition-all">
@@ -518,6 +522,8 @@ const SuccessStories = () => {
     { title: 'INS Mandovi Academy', desc: 'Four 16 sq. meter dishes catering to 400 people at the Naval Academy in Goa.', location: 'Goa, India', image: '/ins madavi goa.jpeg' },
     { title: 'YASHADA IAS Academy', desc: '16 sq. meter dish serving 200 civil service trainees with clean solar meals.', location: 'Pune, India', image: '/yashada.jpeg' },
     { title: 'Siddharoodha Math, Hubballi', desc: 'Implementation of solar steam cooking technology for large-scale community meal preparation, supporting sustainable cooking operations for thousands of devotees daily.', location: 'Hubballi, Karnataka, India', image: '/sidharudhubli.jpg' },
+    { title: 'University of Agriculture Sciences, Dharwad', desc: 'Integration of advanced solar steam cooking technology to provide sustainable and eco-friendly meal solutions for the university community.', location: 'Dharwad, Karnataka, India', image: '/agri_uni.jpg' },
+    { title: 'Mauli Pratisthan – Shingave Naik, Ahmednagar', desc: 'Renewable-energy driven steam cooking initiative established to reduce conventional fuel dependency and improve eco-friendly food service infrastructure.', location: 'Ahmednagar, Maharashtra, India', image: '/mauli.png' },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -539,7 +545,7 @@ const SuccessStories = () => {
           </div>
         </div>
 
-        <div className="relative min-h-[350px]">
+        <div className="relative min-h-[420px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -548,7 +554,7 @@ const SuccessStories = () => {
               exit={{ opacity: 0, x: -50 }}
               className="grid lg:grid-cols-2 gap-12 items-center"
             >
-              <div className="p-10 lg:p-16 rounded-[2.5rem] bg-gray-900 text-white shadow-2xl relative overflow-hidden group h-full flex flex-col justify-center">
+              <div className="p-10 lg:p-12 rounded-[2.5rem] bg-gray-900 text-white shadow-2xl relative overflow-hidden group h-[420px] flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary-green/20 rounded-bl-[100px] group-hover:w-40 group-hover:h-40 transition-all duration-500" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-8">
@@ -566,13 +572,13 @@ const SuccessStories = () => {
                 </div>
               </div>
 
-              <div className="hidden lg:block relative">
-                <div className={`aspect-video bg-gray-100 rounded-3xl overflow-hidden shadow-inner flex items-center justify-center ${stories[activeIndex].image ? '' : 'p-8'}`}>
+              <div className="hidden lg:block relative h-[420px]">
+                <div className={`w-full h-full bg-gray-100 rounded-[2.5rem] overflow-hidden shadow-inner flex items-center justify-center ${stories[activeIndex].image ? 'p-6' : 'p-8'}`}>
                   {stories[activeIndex].image ? (
                     <img
                       src={stories[activeIndex].image}
                       alt={stories[activeIndex].title}
-                      className="w-full h-full object-contain p-4 mix-blend-multiply"
+                      className="w-full h-full object-contain mix-blend-multiply"
                     />
                   ) : (
                     <div className="text-center">
@@ -616,7 +622,7 @@ const Footer = () => {
 
     try {
       // IMPORTANT: Replace this URL with your deployed Google Apps Script Web App URL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwhzY4kNycO16umkjnvCKArlgl6AS3zh0yvv_FscKFQnHvnOpAHyJ2SCh_HXfVd_spD/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbys9_9NFpjA-tDZ49BIrYW7gkzBR6KS3WhsaHuw6kZRO-u4aCj99ZtrI7BY8HT8sWED/exec';
 
       // Google Apps Script requires no-cors mode
       await fetch(scriptURL, {
