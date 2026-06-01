@@ -412,10 +412,15 @@ const CalculatorCTA = () => {
   const cylsPerMonth = cylsPerDay * 30; // Sl No 7
   const costPerMonth = cylsPerMonth * valPrice; // Sl No 9
   const cost9Months = costPerMonth * 9; // Sl No 10
+  const cost3Months = costPerMonth * 3; // Remaining 3 months of LPG cost
 
-  // ROI Calculation (based on 9 months savings per year)
+  // Add 3 months LPG cost to the total setup cost
+  const totalInvestment = setupCost + cost3Months;
+
+  // ROI Calculation
   const annualSavings = cost9Months;
-  const roiYears = annualSavings > 0 ? setupCost / annualSavings : 0;
+  const roiYears = annualSavings > 0 ? totalInvestment / annualSavings : 0;
+  const roiMonths = roiYears * 12;
 
 
   return (
@@ -468,21 +473,30 @@ const CalculatorCTA = () => {
                         />
                       </div>
                     </div>
+                    
+                    {/* Mobile Calculate Button */}
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('results-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="w-full bg-primary-green hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all lg:hidden mt-2"
+                    >
+                      Calculate Savings
+                    </button>
                   </div>
                 </div>
               </div>
 
               {/* Results Grid */}
-              <div className="lg:col-span-7 space-y-4">
+              <div id="results-grid" className="lg:col-span-7 space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: 'No of meals', value: numMeals.toLocaleString() },
+                    { label: 'No of meals', value: numMeals.toLocaleString('en-IN') },
                     { label: 'LPG per meal (kg)', value: lpgPerMeal },
                     { label: 'Total LPG req (kg)', value: `${totalLpgPerDay.toFixed(1)}` },
                     { label: 'Cylinders / Month', value: Math.round(cylsPerMonth) },
                     { label: 'No of Dishes', value: numDishes },
-                    { label: 'System Cost', value: `₹${(setupCost / 100000).toFixed(1)}L` },
-                    { label: 'Cost / Month', value: `₹${Math.round(costPerMonth).toLocaleString()}` },
+                    { label: 'System Cost', value: `₹${(totalInvestment / 100000).toFixed(1)}L` },
+                    { label: 'Cost / Month', value: `₹${Math.round(costPerMonth).toLocaleString('en-IN')}` },
                   ].map((item, i) => (
                     <div key={i} className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 shadow-sm hover:border-emerald-200 transition-all">
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{item.label}</p>
@@ -496,11 +510,11 @@ const CalculatorCTA = () => {
                   <div className="absolute top-0 right-0 w-32 h-full bg-white/10 skew-x-[-20deg] translate-x-16 group-hover:translate-x-8 transition-transform duration-700" />
                   <div className="relative z-10">
                     <p className="text-emerald-100 text-[9px] font-bold uppercase tracking-widest mb-1">9-Month Cylinder Cost</p>
-                    <p className="text-2xl lg:text-3xl font-black">₹{Math.round(cost9Months).toLocaleString()}</p>
+                    <p className="text-2xl lg:text-3xl font-black">₹{Math.round(cost9Months).toLocaleString('en-IN')}</p>
                   </div>
                   <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
                     <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period</p>
-                    <p className="text-xl font-black">{roiYears.toFixed(2)} <span className="text-xs font-normal opacity-70 text-emerald-100">Years</span></p>
+                    <p className="text-xl font-black">{roiMonths.toFixed(1)} <span className="text-xs font-normal opacity-70 text-emerald-100">Months</span></p>
                   </div>
                 </div>
               </div>
@@ -621,8 +635,8 @@ const Footer = () => {
     const formData = new FormData(form);
 
     try {
-      // IMPORTANT: Replace this URL with your deployed Google Apps Script Web App URL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbys9_9NFpjA-tDZ49BIrYW7gkzBR6KS3WhsaHuw6kZRO-u4aCj99ZtrI7BY8HT8sWED/exec';
+      // Deployed Google Apps Script Web App URL linked to the spreadsheet
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwBMuM2cZif-tvIeNzfxNwUjBjLh1bTC4PDlVcnRm9jWzAukNlr0DyF0TtLPeZVv2vR/exec';
 
       // Google Apps Script requires no-cors mode
       await fetch(scriptURL, {
