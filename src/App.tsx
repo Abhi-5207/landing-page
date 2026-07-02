@@ -512,10 +512,14 @@ const CalculatorCTA = () => {
                     <p className="text-emerald-100 text-[9px] font-bold uppercase tracking-widest mb-1">9-Month Cylinder Cost</p>
                     <p className="text-2xl lg:text-3xl font-black">₹{Math.round(cost9Months).toLocaleString('en-IN')}</p>
                   </div>
-                  <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
+                  <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[150px] relative z-10 backdrop-blur-sm">
                     <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period</p>
-                    <p className="text-xl font-black">{roiYears.toFixed(2)} <span className="text-xs font-normal opacity-70 text-emerald-100">Years</span></p>
+                    <p className="text-xl font-black">{roiMonths.toFixed(1)} <span className="text-xs font-normal opacity-70 text-emerald-100">Months</span> <span className="text-[10px] font-normal opacity-90 text-white">({roiYears.toFixed(2)} Years)</span></p>
                   </div>
+                </div>
+                
+                <div className="mt-4 text-[10px] text-gray-500 italic text-right">
+                  * Note: This calculation is of only 9 months.
                 </div>
               </div>
             </div>
