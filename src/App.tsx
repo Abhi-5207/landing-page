@@ -492,7 +492,7 @@ const CalculatorCTA = () => {
                   {[
                     { label: 'No of meals', value: numMeals.toLocaleString('en-IN') },
                     { label: 'LPG per meal (kg)', value: lpgPerMeal },
-                    { label: 'Total LPG req (kg)', value: `${totalLpgPerDay.toFixed(1)}` },
+                    { label: 'Total LPG req (kg) per day', value: `${totalLpgPerDay.toFixed(1)}` },
                     { label: 'Cylinders / Month', value: Math.round(cylsPerMonth) },
                     { label: 'No of Dishes', value: numDishes },
                     { label: 'System Cost', value: `₹${(totalInvestment / 100000).toFixed(1)}L` },
@@ -514,7 +514,7 @@ const CalculatorCTA = () => {
                   </div>
                   <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
                     <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period</p>
-                    <p className="text-xl font-black">{roiMonths.toFixed(1)} <span className="text-xs font-normal opacity-70 text-emerald-100">Months</span></p>
+                    <p className="text-xl font-black">{roiYears.toFixed(2)} <span className="text-xs font-normal opacity-70 text-emerald-100">Years</span></p>
                   </div>
                 </div>
               </div>
