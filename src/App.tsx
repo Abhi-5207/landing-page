@@ -506,23 +506,36 @@ const CalculatorCTA = () => {
                 </div>
 
                 {/* Compact Highlight Card */}
-                <div className="bg-primary-green py-4 px-6 rounded-2xl text-white shadow-lg flex justify-between items-center mt-2 relative overflow-hidden group">
+                <div className="bg-primary-green py-4 px-6 rounded-2xl text-white shadow-lg flex flex-col mt-2 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-32 h-full bg-white/10 skew-x-[-20deg] translate-x-16 group-hover:translate-x-8 transition-transform duration-700" />
-                  <div className="relative z-10">
-                    <p className="text-emerald-100 text-[9px] font-bold uppercase tracking-widest mb-1">9-Month Cylinder Cost</p>
-                    <p className="text-2xl lg:text-3xl font-black">₹{Math.round(cost9Months).toLocaleString('en-IN')}</p>
+                  
+                  <div className="flex justify-between items-center w-full">
+                    <div className="relative z-10">
+                      <p className="text-emerald-100 text-[9px] font-bold uppercase tracking-widest mb-1">9-Month Cylinder Cost</p>
+                      <p className="text-2xl lg:text-3xl font-black">₹{Math.round(cost9Months).toLocaleString('en-IN')}</p>
+                    </div>
+                    <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
+                      <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period</p>
+                      <p className="text-xl font-black">{roiMonths.toFixed(1)} <span className="text-xs font-normal opacity-70 text-emerald-100">Months</span></p>
+                    </div>
+                    <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
+                      <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period (Years)</p>
+                      <p className="text-xl font-black">{(roiMonths/12).toFixed(2)} <span className="text-xs font-normal opacity-70 text-emerald-100">Years</span></p>
+                    </div>
                   </div>
-                  <div className="bg-white/20 px-4 py-2 rounded-xl border border-white/30 text-center min-w-[110px] relative z-10 backdrop-blur-sm">
-                    <p className="text-white/80 text-[8px] font-bold uppercase mb-0.5 tracking-wider">ROI Period</p>
-                    <p className="text-xl font-black">{roiYears.toFixed(2)} <span className="text-xs font-normal opacity-70 text-emerald-100">Years</span></p>
-                  </div>
+
                 </div>
               </div>
+            </div>
+            
+            <div className="flex justify-center mt-8 pt-6 border-t border-gray-100">
+              <p className="text-sm text-gray-800 font-bold italic">*This calculation is for 9 months only.</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+                        
+                  </section>
   );
 };
 
