@@ -491,14 +491,14 @@ const CalculatorCTA = () => {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { label: 'No of meals', value: numMeals.toLocaleString('en-IN') },
-                    { label: 'LPG per meal (kg)', value: lpgPerMeal },
-                    { label: 'Total LPG req (kg) per day', value: `${totalLpgPerDay.toFixed(1)}` },
+                    { label: 'LPG per meal (kg)', value: lpgPerMeal, hidden: true },
+                    { label: 'Total LPG req (kg) per day', value: `${totalLpgPerDay.toFixed(1)}`, hidden: true },
                     { label: 'Cylinders / Month', value: Math.round(cylsPerMonth) },
                     { label: 'No of Dishes', value: numDishes },
                     { label: 'System Cost', value: `₹${(totalInvestment / 100000).toFixed(1)}L` },
                     { label: 'Cost / Month', value: `₹${Math.round(costPerMonth).toLocaleString('en-IN')}` },
                   ].map((item, i) => (
-                    <div key={i} className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 shadow-sm hover:border-emerald-200 transition-all">
+                    <div key={i} className={`bg-gray-50/50 p-4 rounded-xl border border-gray-100 shadow-sm hover:border-emerald-200 transition-all ${item.hidden ? 'hidden' : ''}`}>
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{item.label}</p>
                       <p className="text-lg font-bold text-gray-900">{item.value}</p>
                     </div>
